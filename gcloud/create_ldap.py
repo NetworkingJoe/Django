@@ -11,13 +11,13 @@ def create_instance(compute, project, zone, name):
     source_disk_image = image_response['selfLink']
     machine_type = "zones/%s/machineTypes/f1-micro" % zone
     
-    #This section selects the style and size of the instance.
+    #Lines 11-12 select the style and size of the instance.
 
     config = {
         'name': name,
         'machineType': machine_type,
 
-        # Specify the boot disk and the image to use as a source.
+    # lines 16-18 basically name the machine, lines 23-26 specify the boot disk and selects the image to use as a source.
         'disks': [
             {
                 'boot': True,
@@ -28,11 +28,8 @@ def create_instance(compute, project, zone, name):
             }
         ],
         
-        #Basically this starts our disk when the instance is powered on from the source_disk_image library of files which 
-        #is needed to have no blank screen of doom or an error message.
-
-        # Specify a network interface with NAT to access the public
-        # internet.
+        # Lines 33-36 pecifiy a network interface with NAT to access the public internet.
+ 
         'networkInterfaces': [{
             'network': 'global/networks/default',
             'accessConfigs': [
@@ -40,7 +37,7 @@ def create_instance(compute, project, zone, name):
             ]
         }],
 
-        # Allow the instance to access cloud storage and logging.
+        # Lines 41-45 allow the instance to access cloud storage and logging.
         'serviceAccounts': [{
             'email': 'default',
             'scopes': [
@@ -49,7 +46,7 @@ def create_instance(compute, project, zone, name):
             ]
         }],
 
-       # Enable https/http for select instances
+       # Lines 50-58 enable https/http for select instances
        "labels": {
        "http-server": "",
       "https-server": ""
@@ -62,7 +59,7 @@ def create_instance(compute, project, zone, name):
        ]
        },
 
-        # Metadata is readable from the instance and allows you to
+        # Lines 64-68 take metadata that is readable from the instance and allows you to 
         # pass configuration from deployment scripts to instances.
         'metadata': {
             'items': [{
@@ -80,3 +77,6 @@ def create_instance(compute, project, zone, name):
         zone=zone,
         body=config).execute()
 
+        #Finally, Lines 75-78 basically allow us final run permissions on the instance when started, and the project folder
+        #etc. and makes sure that our arguments ring true for compute.instances using the keys project, zone, and config
+        #and executing it.
