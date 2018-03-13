@@ -3,8 +3,15 @@ def create_instance(compute, project, zone, name):
     image_response = compute.images().getFromFamily(
       project='centos-cloud', family='centos-7').execute()
 
+   #The top part basically creates a defined library with the contents compute, project, zone, and name.
+   #It imports a recursive startup_script file to open and read at startup so we can run our instance 
+   #With the centos-7 type of processor and the image from a library called compute so that it can start up.
+   #I.E. the first part is our instance startup as if we were doing it directly from gcloud itself.
+
     source_disk_image = image_response['selfLink']
     machine_type = "zones/%s/machineTypes/f1-micro" % zone
+    
+    #This section selects the style and size of the instance.
 
     config = {
         'name': name,
@@ -20,6 +27,9 @@ def create_instance(compute, project, zone, name):
                 }
             }
         ],
+        
+        #Basically this starts our disk when the instance is powered on from the source_disk_image library of files which 
+        #is needed to have no blank screen of doom or an error message.
 
         # Specify a network interface with NAT to access the public
         # internet.
