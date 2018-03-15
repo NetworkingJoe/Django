@@ -16,7 +16,6 @@ def django_install():
   os.system('sudo virtualenv -p python3 django')
   os.chdir('/opt/django/django')
   os.system('source /opt/django/django/bin/activate && pip install django')
-
   os.system('source /opt/django/django/bin/activate && django-admin startproject project1')
 
   os.chdir('..')
